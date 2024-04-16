@@ -32,9 +32,9 @@ sed -ri "s/^#? *PasswordAuthentication *yes.*/PasswordAuthentication no/" /mnt/r
 
 chroot /mnt/rootdir useradd -m -G wheel live
 
-# Root and live account passwords are recovery
-printf "recovery" | chroot /mnt/rootdir passwd
-printf "recovery" | chroot /mnt/rootdir passwd live
+# Root and live account passwords are recoveryconsole
+printf "recoveryconsole" | chroot /mnt/rootdir passwd --stdin root
+printf "recoveryconsole" | chroot /mnt/rootdir passwd --stdin live
 
 echo "live ALL=(ALL) NOPASSWD: ALL" > /mnt/rootdir/etc/sudoers.d/01-nopasswd-live
 mkdir -p /mnt/rootdir/home/live/.ssh
