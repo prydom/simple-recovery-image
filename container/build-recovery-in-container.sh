@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-dnf5 -y install dracut dracut-live strip systemd-boot-unsigned systemd-ukify zstd sbsigntools squashfs-tools-ng plymouth ncdu
 mkdir -p /mnt/rootdir
 
 dnf5 -y --installroot=/mnt/rootdir --use-host-config \

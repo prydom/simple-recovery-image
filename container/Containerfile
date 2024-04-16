@@ -1,4 +1,9 @@
 FROM quay.io/fedora/fedora-minimal:39
+
+RUN dnf5 -y install dracut dracut-live \
+    strip systemd-boot-unsigned systemd-ukify \
+    zstd sbsigntools squashfs-tools-ng plymouth ncdu
+
 COPY ./build-recovery-in-container.sh /root
 WORKDIR /root
 RUN /root/build-recovery-in-container.sh
