@@ -42,6 +42,8 @@ echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINl0++N1F1NIQ/YDWaPtp1STrCK39lcSvrf9Rp
 chroot /mnt/rootdir chown -R live:live /home/live
 
 rm -rf /mnt/rootdir/var/cache/*
+rm -rf /mnt/rootdir/boot/*
+mkdir -p /mnt/rootdir/boot/efi
 
 KVER="$(chroot /mnt/rootdir rpm -q kernel-core --qf '%{version}-%{release}.%{arch}')"
 mv /mnt/rootdir/usr/lib/modules/$KVER/vmlinuz /mnt
