@@ -1,0 +1,4 @@
+FROM quay.io/fedora/fedora-minimal:39
+COPY ./build-recovery-in-container.sh /root
+WORKDIR /root
+RUN /root/build-recovery-in-container.sh
