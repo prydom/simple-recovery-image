@@ -1,3 +1,4 @@
-/work
+/work*
 /cache
 /log.txt
+/*.qcow2

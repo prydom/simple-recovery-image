@@ -15,6 +15,10 @@ install kernel-modules-core kernel-core kernel-modules linux-firmware amd-gpu-fi
 dnf5 -y --installroot=/mnt/rootdir \
 install bash-completion htop vim NetworkManager-wifi tmux cryptsetup gdisk man-db man-pages sudo
 
+dnf5 -y --installroot=/mnt/rootdir \
+--setopt=install_weak_deps=False \
+install sway foot default-fonts-core
+
 systemd-firstboot \
     --root=/mnt/rootdir \
     --reset
@@ -69,7 +73,7 @@ dracut --reproducible --no-hostonly --tmpdir /tmp/dracut -vf \
 /usr/lib/systemd/ukify build \
 --linux=/mnt/vmlinuz \
 --initrd=/mnt/initramfs.img \
---cmdline="rhgb quiet amdgpu.sg_display=0 rd.shell=0 root=live:LABEL=BOOT rd.live.dir=/LiveOS rd.live.squashimg=rootfs-zstd.squashfs rd.live.ram=1 rd.live.overlay.overlayfs=1 rd.live.overlay.readonly=1 rw" \
+--cmdline="rhgb quiet amdgpu.sg_display=0 rd.shell=0 root=live:LABEL=BOOT rd.live.dir=/LiveOS rd.live.squashimg=rootfs-zstd.squashfs rd.live.ram=1 rw" \
 --os-release=@/mnt/os-release \
 "--uname=$KVER" \
 --output=/mnt/recovery.efi
