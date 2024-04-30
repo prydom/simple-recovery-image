@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
+KERNEL_CMDLINE="rhgb quiet amdgpu.sg_display=0 rd.shell=0 root=live:LABEL=BOOT rd.live.dir=/LiveOS rd.live.squashimg=rootfs-zstd.squashfs rd.live.ram=1 rw"
+
 mkdir -p /mnt/rootdir
 
 dnf5 -y --installroot=/mnt/rootdir --use-host-config \
@@ -28,7 +30,7 @@ systemd-firstboot \
     --setup-machine-id \
     --timezone=America/Vancouver \
     --hostname=fedora-recovery \
-    --kernel-command-line="amdgpu.sg_display=0 rd.shell=0 root=live:LABEL=BOOT rd.live.dir=/LiveOS rd.live.squashimg=rootfs-zstd.squashfs rd.live.ram=1 rd.live.overlay.overlayfs=1 rd.live.overlay.readonly=1 rw"
+    --kernel-command-line="$KERNEL_CMDLINE"
 
 chroot /mnt/rootdir systemctl set-default multi-user.target
 sed -ri "s/^#? *PasswordAuthentication *yes.*/PasswordAuthentication no/" /mnt/rootdir/etc/ssh/sshd_config
@@ -73,7 +75,7 @@ dracut --reproducible --no-hostonly --tmpdir /tmp/dracut -vf \
 /usr/lib/systemd/ukify build \
 --linux=/mnt/vmlinuz \
 --initrd=/mnt/initramfs.img \
---cmdline="rhgb quiet amdgpu.sg_display=0 rd.shell=0 root=live:LABEL=BOOT rd.live.dir=/LiveOS rd.live.squashimg=rootfs-zstd.squashfs rd.live.ram=1 rw" \
+--cmdline="$KERNEL_CMDLINE" \
 --os-release=@/mnt/os-release \
 "--uname=$KVER" \
 --output=/mnt/recovery.efi
